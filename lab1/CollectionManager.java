@@ -24,7 +24,7 @@ public class CollectionManager {
         try{
             importCommand(fileName);
         }catch(Exception e){
-            System.out.println("file isn't imported");
+
         }
     }
 
@@ -75,7 +75,7 @@ public class CollectionManager {
     }
     public void consolOut (){
         for (Umbrella umbrella : collection.values()) {
-        //делать что-то с umbrella
+            //делать что-то с umbrella
             String material = umbrella.getMaterialName();
             String manufac = umbrella.getManufacturer();
             String id = Integer.toString(umbrella.getId());
@@ -90,17 +90,18 @@ public class CollectionManager {
     public Umbrella toUmbrella(JSONObject element) {
         String materialName = (String) element.get("materialName");
         String manufacturer = (String) element.get("manufacturer");
-        JSONObject dateJ = (JSONObject) element.get("date");
-        String year_string = (String) dateJ.get("Year");
-        String month_string = (String) dateJ.get("MONTH");
-        String day_string = (String) dateJ.get("Day");
-        int year = Integer.valueOf(year_string);
-        int month = Integer.valueOf(month_string);
-        int day = Integer.valueOf(day_string);
-        GregorianCalendar date = new GregorianCalendar(year,month,day);
         JSONObject color = (JSONObject) element.get("color");
         String idStr = (String) element.get("id");
         int idInt = Integer.valueOf(idStr);
+
+        JSONObject date = (JSONObject) element.get("date");
+        String yearstring =(String) date.get("year");
+        String monthstring =(String) date.get("month");
+        String daystring = (String)date.get("day");
+        int yearint = Integer.valueOf(yearstring);
+        int monthint = Integer.valueOf(monthstring);
+        int dayint = Integer.valueOf(daystring);
+
         String rstring = (String) color.get("r");
         String gstring = (String) color.get("g");
         String bstring = (String) color.get("b");
@@ -108,15 +109,15 @@ public class CollectionManager {
         int gint = Integer.valueOf(gstring);
         int bint = Integer.valueOf(bstring);
         Color colorObject = new Color(rint, gint, bint);
-        Umbrella umbrella = new Umbrella(idInt, colorObject, materialName, manufacturer,date );
-
+        GregorianCalendar dateObject = new GregorianCalendar(yearint,monthint,dayint);
+        Umbrella umbrella = new Umbrella(idInt, colorObject, materialName, manufacturer,dateObject);
         return umbrella;
     }
 
     public Umbrella toUmbrella (String elementJSon) throws ParseException {
-            JSONParser parser = new JSONParser();
-            JSONObject element = (JSONObject) parser.parse(elementJSon);
-            return toUmbrella(element);
+        JSONParser parser = new JSONParser();
+        JSONObject element = (JSONObject) parser.parse(elementJSon);
+        return toUmbrella(element);
     }
 
     /**
@@ -129,7 +130,7 @@ public class CollectionManager {
      *                    <li>"Color"(example "color":{"r":"255","b":"0","g":"0"})</li></ul>
      */
     public void add_if_min(String elementJson) {
-       // System.out.println(elementJson +"  ДОБАВЛЕН");
+        // System.out.println(elementJson +"  ДОБАВЛЕН");
 
         try {
             Umbrella umbrella = this.toUmbrella(elementJson);
@@ -137,9 +138,9 @@ public class CollectionManager {
             boolean[] isMin = { true };
 
             collection.forEach((key, value) -> {
-                 if (value.compareTo(umbrella) < 0) {
-                     isMin[0] = false;
-                 }
+                if (value.compareTo(umbrella) < 0) {
+                    isMin[0] = false;
+                }
             });
 
             if (isMin[0]){
@@ -176,7 +177,6 @@ public class CollectionManager {
                     JSONObject jsonObj = (JSONObject) object;
                     Umbrella umbrella = toUmbrella(jsonObj);
                     collection.put(umbrella.getId(), umbrella);
-                    System.out.println("file imported");
                 });
             } else {
                 System.out.println("Файла нет");
@@ -193,11 +193,12 @@ public class CollectionManager {
             obj.put("materialName", umbrella.getMaterialName());
             obj.put("manufacturer",umbrella.getManufacturer());
             obj.put("id", Integer.toString(umbrella.getId()));
+
             JSONObject dateObj = new JSONObject();
-            //dateObj.put()
-            obj.put("date",umbrella.getDate());
-
-
+            dateObj.put("year", Integer.toString(umbrella.getGr().get(Calendar.YEAR)));
+            dateObj.put("month",Integer.toString(umbrella.getGr().get(Calendar.MONTH)));
+            dateObj.put("day",Integer.toString(umbrella.getGr().get(Calendar.DAY_OF_MONTH)));
+            obj.put("date",dateObj);
             JSONObject colorObj = new JSONObject();
             colorObj.put("r", Integer.toString(umbrella.getColor().getR()));
             colorObj.put("g", Integer.toString(umbrella.getColor().getG()));

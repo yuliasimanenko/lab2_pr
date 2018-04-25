@@ -1,20 +1,22 @@
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+
 public class Umbrella extends WoodenThings implements Open, Comparable<Umbrella>, Serializable {
-    private static final long serialVersionUID = 2;
+    private static final long serialVersionUID = 1;
 
     private int id;
     private Color color;
     private String materialName;
     private String manufacturer;
-    private GregorianCalendar date;
-
+    private GregorianCalendar gr;
 
     public int getId() {
         return id;
     }
-    public GregorianCalendar getDate(){return date;}
+    public GregorianCalendar getGr(){
+        return gr;
+    }
     public String getMaterialName() {
         return materialName;
     }
@@ -24,17 +26,14 @@ public class Umbrella extends WoodenThings implements Open, Comparable<Umbrella>
     public Color getColor(){
         return this.color;
     }
-    public Integer getYear(){return date.get(Calendar.YEAR);}
-    public Integer getMONTH(){return date.get(Calendar.MONTH);}
-    public Integer getDay(){return date.get(Calendar.DAY_OF_MONTH);}
 
-    public Umbrella(int id, Color color, String materialName, String manufacturer,GregorianCalendar date){
+    public Umbrella(int id, Color color, String materialName, String manufacturer,GregorianCalendar gr){
         super("Зонтик");
         this.id = id;
         this.color = color;
         this.materialName = materialName;
         this.manufacturer = manufacturer;
-        this.date = date;
+        this.gr= gr;
     }
 
 //переопределенеи интерфейса Open
@@ -73,7 +72,7 @@ public class Umbrella extends WoodenThings implements Open, Comparable<Umbrella>
 
     @Override
     public String toString(){
-        return "ID: "+id +" Material: "+ materialName+ " Date ";
+        return "ID: "+id +" Material: "+ materialName + "The country "+manufacturer+" date: "+gr.get(Calendar.YEAR) ;
     }
 
     @Override
