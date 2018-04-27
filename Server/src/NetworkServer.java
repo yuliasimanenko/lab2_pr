@@ -29,7 +29,7 @@ public class NetworkServer {
                 socket = new DatagramSocket(a);
                 DatagramPacket packet = new DatagramPacket(b, b.length);
 
-                while(true){
+                //while
                     System.out.println("Waiting for request...");
 
                     socket.receive(packet);
@@ -37,10 +37,20 @@ public class NetworkServer {
                     System.out.println("Received packet of size: " + packet.getLength());
 
                     System.out.println(b[0]+" number of command");
+                    final DatagramSocket se = socket;
                     //создание нового потока для каждого пользователяб вызов
-                    QueueClirnt qc = new QueueClirnt(b,socket,dataOutStream,oStream,packet);
-                    qc.start();
-                }
+                    //ifFunction(b,socket,packet);
+                    //qc.start();
+                    Thread c = new Thread(){
+                        public void run(){
+                            ifFunction(b,se,packet);
+                            se.close();
+                        }
+                    };
+                    c.start();
+                    c.join();
+
+
             }
             catch (Exception e) {
                     System.out.println(e.getMessage());
@@ -63,9 +73,11 @@ public class NetworkServer {
     }
 
 
-    public static void ifFunction (byte b[],DatagramSocket socket,ByteArrayOutputStream dataOutStream,
-                            ObjectOutputStream oStream,DatagramPacket packet){
+    public static void ifFunction (byte b[],DatagramSocket socket,
+                            DatagramPacket packet){
         try{if (b[0] == 1) {
+            ByteArrayOutputStream dataOutStream = null;
+            ObjectOutputStream oStream = null;
             dataOutStream = new ByteArrayOutputStream();
             oStream = new ObjectOutputStream(dataOutStream);
             Object[] array = manager.getSortedUmbrellas();
@@ -87,8 +99,6 @@ public class NetworkServer {
         }
         }catch(IOException e ){
             e.getMessage();
-        }finally {
-            socket.close();
         }
 
     }
@@ -98,23 +108,22 @@ public class NetworkServer {
 class QueueClirnt extends Thread{
     public byte t[];
     public DatagramSocket socketT;
-    public ByteArrayOutputStream dataOutStreamT;
-    public ObjectOutputStream oStreamT;
+   // public ByteArrayOutputStream dataOutStreamT;
+   // public ObjectOutputStream oStreamT;
     public DatagramPacket packetT;
 
-    public QueueClirnt(byte b[],DatagramSocket socket,ByteArrayOutputStream dataOutStream,
-                       ObjectOutputStream oStream,DatagramPacket packet){
+    public QueueClirnt(byte b[],DatagramSocket socket,
+                       DatagramPacket packet){
         byte t[]= b;
         DatagramSocket socketT=socket;
-        ByteArrayOutputStream dataOutStreamT=dataOutStream;
-        ObjectOutputStream oStreamT =oStream;
+
         DatagramPacket packetT= packet;
 
     }
 
     public void run(){
         //вызывается вторая часть логики по обработке уже конкретных команд
-        NetworkServer.ifFunction(t,socketT,dataOutStreamT,oStreamT,packetT);
+        NetworkServer.ifFunction(t,socketT,packetT);
     }
 }
 
