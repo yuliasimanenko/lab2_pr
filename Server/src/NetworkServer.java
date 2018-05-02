@@ -39,8 +39,7 @@ public class NetworkServer {
                     System.out.println(b[0]+" number of command");
                     final DatagramSocket se = socket;
                     //создание нового потока для каждого пользователяб вызов
-                    //ifFunction(b,socket,packet);
-                    //qc.start();
+
                     Thread c = new Thread(){
                         public void run(){
                             ifFunction(b,se,packet);
@@ -105,27 +104,3 @@ public class NetworkServer {
 
 
 }
-class QueueClirnt extends Thread{
-    public byte t[];
-    public DatagramSocket socketT;
-   // public ByteArrayOutputStream dataOutStreamT;
-   // public ObjectOutputStream oStreamT;
-    public DatagramPacket packetT;
-
-    public QueueClirnt(byte b[],DatagramSocket socket,
-                       DatagramPacket packet){
-        byte t[]= b;
-        DatagramSocket socketT=socket;
-
-        DatagramPacket packetT= packet;
-
-    }
-
-    public void run(){
-        //вызывается вторая часть логики по обработке уже конкретных команд
-        NetworkServer.ifFunction(t,socketT,packetT);
-    }
-}
-
-
-
