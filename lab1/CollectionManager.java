@@ -8,8 +8,12 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
 import java.util.*;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class CollectionManager {
+
+
     private Map<Integer, Umbrella> collection =
             Collections.synchronizedMap(new LinkedHashMap<>());
     private Date initDate;
@@ -27,10 +31,12 @@ public class CollectionManager {
 
         }
     }
-
-    public Object[] getSortedUmbrellas() {
+    Lock l = new ReentrantLock();
+     public Object[] getSortedUmbrellas() {
+         l.lock();
         Object[] arr =  collection.values().toArray();
         Arrays.sort(arr);
+        l.unlock();
         return arr;
     }
 
@@ -87,6 +93,7 @@ public class CollectionManager {
         }
     }
 
+
     public Umbrella toUmbrella(JSONObject element) {
         String materialName = (String) element.get("materialName");
         String manufacturer = (String) element.get("manufacturer");
@@ -114,7 +121,10 @@ public class CollectionManager {
         return umbrella;
     }
 
-    public Umbrella toUmbrella (String elementJSon) throws ParseException {
+
+
+
+    synchronized public Umbrella toUmbrella (String elementJSon) throws ParseException {
         JSONParser parser = new JSONParser();
         JSONObject element = (JSONObject) parser.parse(elementJSon);
         return toUmbrella(element);

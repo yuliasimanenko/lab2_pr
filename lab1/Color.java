@@ -29,6 +29,11 @@ public class Color implements Serializable {
     }
     @Override
     public boolean equals(Object obj){
+        if (obj instanceof java.awt.Color) {
+            java.awt.Color c = (java.awt.Color)obj;
+            return (this.getR()==c.getRed()&& this.getB()==c.getBlue() && this.getG()==c.getGreen());
+        }
+
         if (!(obj instanceof Color))
             return false;
         Color other = (Color) obj;

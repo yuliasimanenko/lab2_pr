@@ -1,3 +1,6 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.Color;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InterruptedIOException;
@@ -18,7 +21,13 @@ import java.util.Timer;
 public class Main {
     private static final int WAIT_TIME = 5000;
 
-    public static void main (String args[]){
+    public static void main(String args[]) {
+        ClientForm2 form = new ClientForm2();
+        form.pack();
+        form.setVisible(true);
+    }
+
+    public static void main_old (String args[]){
 
             Scanner scanner = new Scanner(System.in);
 
@@ -31,7 +40,7 @@ public class Main {
 
                 switch (words[0]) {
                     case "info":
-                        final boolean[] interrupted = {false};
+                       final   boolean[] interrupted = {false};
                         Thread mainTask = new Thread(){
                             public void run(){
                                 resAnswer(sentAnswer());
@@ -41,8 +50,9 @@ public class Main {
                         new Timer(true).schedule(new TimerTask() {
                             @Override
                             public void run() {
+                                mainTask.interrupt();
                                 interrupted[0] = true;
-                               mainTask.interrupt();
+
                             }
                         }, WAIT_TIME);
                         if(interrupted[0]){
