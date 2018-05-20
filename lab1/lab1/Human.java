@@ -1,3 +1,5 @@
+package lab1;
+
 public abstract class Human {
 
     protected String name;

@@ -1,3 +1,5 @@
+package lab1;
+
 public class DeskAndChair extends WoodenThings implements Open{
 
     DeskAndChair(){
@@ -6,7 +8,7 @@ public class DeskAndChair extends WoodenThings implements Open{
 
     }
 
-//реализация метода из интерфейса Open
+//реализация метода из интерфейса lab1.Open
 
     @Override
 

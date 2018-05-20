@@ -1,3 +1,5 @@
+package lab1;
+
 public class FinallyString {
  void string() {
 	 System.out.println("Такова была история Смекайло");

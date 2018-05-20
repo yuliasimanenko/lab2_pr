@@ -1,10 +1,11 @@
+package lab1;
+
 import org.json.simple.*;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
 import java.util.*;
@@ -59,7 +60,7 @@ public class CollectionManager {
      *                    <li>"id" (example "id":"12")</li>
      *                    <li>"materialName"(example  "materialName":"wood")</li>
      *                    <li>"manufacturer"(example   "manufacturer":"China")</li>
-     *                    <li>"Color"(example "color":{"r":"255","b":"0","g":"0"})</li></ul>
+     *                    <li>"lab1.Color"(example "color":{"r":"255","b":"0","g":"0"})</li></ul>
      */
     public void remove_greater(String elementJson) {
         try {
@@ -137,7 +138,7 @@ public class CollectionManager {
      *                    <li>"id" (example "id":"12")</li>
      *                    <li>"materialName"(example  "materialName":"wood")</li>
      *                    <li>"manufacturer"(example   "manufacturer":"China")</li>
-     *                    <li>"Color"(example "color":{"r":"255","b":"0","g":"0"})</li></ul>
+     *                    <li>"lab1.Color"(example "color":{"r":"255","b":"0","g":"0"})</li></ul>
      */
     public void add_if_min(String elementJson) {
         // System.out.println(elementJson +"  ДОБАВЛЕН");

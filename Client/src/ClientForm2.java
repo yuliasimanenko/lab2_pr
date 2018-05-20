@@ -1,3 +1,5 @@
+import lab1.Umbrella;
+
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -13,6 +15,8 @@ import java.net.SocketAddress;
 import java.nio.ByteBuffer;
 import java.nio.channels.DatagramChannel;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
 import java.util.TimerTask;
 import java.util.stream.Stream;
 
@@ -31,13 +35,14 @@ public class ClientForm2 extends JFrame {
     Object[] umbrellasArray = new Object[0];
     boolean collectionDrawn = false;
     ArrayList<Object> objsToHide = new ArrayList<>();
+    boolean isHidingElements = true;
 
     public ClientForm2() {
         super("Client");
         setContentPane(panel1);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        MyListRenderer.alpha = 0;
-        MyListRenderer.toChangeAlpha.add(0);
+        //MyListRenderer.alpha = 0;
+        //MyListRenderer.toChangeAlpha.add(0);
 
         list1.setCellRenderer(new MyListRenderer());
 
@@ -45,19 +50,30 @@ public class ClientForm2 extends JFrame {
             if (!collectionDrawn) {
                 collectionDrawn = true;
                 ((DefaultListModel) list1.getModel()).clear();
+                MyListRenderer.itemColors.clear();
 
                 Stream.of(umbrellasArray).forEach((u) -> {
 //                    if (shouldFilter(u))
 //                        list1.getCellRenderer().getListCellRendererComponent()
+                    MyListRenderer.itemColors.add(((Umbrella) u).getColor());
                     ((DefaultListModel) list1.getModel()).addElement(u.toString());
                 });
             }
         });
         timer.start();
 
-        Timer hideTimer = new Timer(100, (e) -> {
-           MyListRenderer.alpha = Math.max(0, MyListRenderer.alpha - 3);
-           list1.updateUI();
+        final int TIMER_DELAY = 125;
+        Timer hideTimer = new Timer(TIMER_DELAY, (e) -> {
+            if (isHidingElements)
+                MyListRenderer.alpha = Math.max(0, MyListRenderer.alpha - 6);
+            else
+                MyListRenderer.alpha = Math.min(255, MyListRenderer.alpha + 15);
+
+            if (MyListRenderer.alpha == 0 && isHidingElements) {
+                isHidingElements = false;
+            }
+
+            list1.updateUI();
         });
 
         updateCollectionButton.addActionListener((e) -> {
@@ -124,8 +140,15 @@ public class ClientForm2 extends JFrame {
                     MyListRenderer.toChangeAlpha.add(i);
             }
 
+            isHidingElements = true;
             hideTimer.start();
         });
+
+        stopButton.addActionListener((e) -> {
+            hideTimer.stop();
+        });
+
+
     }
 
     private Color strToColor(String str) {
@@ -162,6 +185,11 @@ public class ClientForm2 extends JFrame {
         Umbrella u = (Umbrella) objUmbrella;
         Color c = strToColor(inputColor.getText());
 
+        if (!u.getManufacturer().equals(inputCountry.getText()))
+            return false;
+        if (u.getGr().get(Calendar.YEAR) != (slider1.getValue()))
+            return false;
+
         return u.getColor().equals(c);
     }
 
@@ -187,6 +215,7 @@ public class ClientForm2 extends JFrame {
             Object of = objectInputStream.readObject();
             Object[] umbrellas = (Object[]) of;
             umbrellasArray = umbrellas;
+            Arrays.sort(umbrellasArray);
             collectionDrawn = false;
 //            ((DefaultListModel) list1.getModel()).clear();
 //            System.out.println("Clear");
@@ -312,6 +341,15 @@ public class ClientForm2 extends JFrame {
         panel4.add(updateCollectionButton, new com.intellij.uiDesigner.core.GridConstraints(5, 0, 1, 2, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         slider1 = new JSlider();
         slider1.setBackground(new Color(-4493816));
+        slider1.setMajorTickSpacing(19);
+        slider1.setMaximum(2018);
+        slider1.setMinimum(1999);
+        slider1.setMinorTickSpacing(1);
+        slider1.setPaintLabels(true);
+        slider1.setPaintTicks(true);
+        slider1.setPaintTrack(true);
+        slider1.setSnapToTicks(false);
+        slider1.setValueIsAdjusting(false);
         panel4.add(slider1, new com.intellij.uiDesigner.core.GridConstraints(3, 1, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JPanel panel5 = new JPanel();
         panel5.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(2, 1, new Insets(0, 0, 0, 0), -1, 200));
@@ -324,7 +362,7 @@ public class ClientForm2 extends JFrame {
         list1.setModel(defaultListModel1);
         list1.setSelectionBackground(new Color(-4476917));
         list1.setSelectionForeground(new Color(-16514304));
-        panel5.add(list1, new com.intellij.uiDesigner.core.GridConstraints(0, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_BOTH, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(200, 200), null, 0, false));
+        panel5.add(list1, new com.intellij.uiDesigner.core.GridConstraints(0, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_BOTH, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(300, 200), null, 0, false));
         final com.intellij.uiDesigner.core.Spacer spacer1 = new com.intellij.uiDesigner.core.Spacer();
         panel5.add(spacer1, new com.intellij.uiDesigner.core.GridConstraints(1, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_VERTICAL, 1, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         final JPanel panel6 = new JPanel();

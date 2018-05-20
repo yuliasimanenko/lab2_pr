@@ -1,3 +1,5 @@
+package lab1;
+
 public class Story {
     public static void story() {
         Smekajlo me = new Smekajlo();

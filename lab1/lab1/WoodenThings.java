@@ -1,3 +1,5 @@
+package lab1;
+
 import java.io.Serializable;
 
 public abstract class WoodenThings implements Serializable {

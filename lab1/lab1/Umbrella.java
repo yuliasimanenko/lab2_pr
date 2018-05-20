@@ -1,3 +1,5 @@
+package lab1;
+
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -36,7 +38,7 @@ public class Umbrella extends WoodenThings implements Open, Comparable<Umbrella>
         this.gr= gr;
     }
 
-//переопределенеи интерфейса Open
+//переопределенеи интерфейса lab1.Open
 
     @Override
 
@@ -77,6 +79,7 @@ public class Umbrella extends WoodenThings implements Open, Comparable<Umbrella>
 
     @Override
     public int compareTo(Umbrella o) {
-        return ((Integer)id).compareTo(o.id);
+        return o.getManufacturer().compareTo(this.getManufacturer());
+        //return ((Integer)id).compareTo(o.id);
     }
 }

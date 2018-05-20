@@ -1,3 +1,5 @@
+package lab1;
+
 public class Smekajlo extends Human implements Push{
 
     Smekajlo(){

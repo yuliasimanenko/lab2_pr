@@ -1,19 +1,12 @@
-import javax.swing.*;
-import java.awt.*;
-import java.awt.Color;
+import lab1.Story;
+
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.InterruptedIOException;
 import java.io.ObjectInputStream;
 import java.net.*;
 import java.nio.ByteBuffer;
 import java.nio.channels.DatagramChannel;
-import java.sql.Array;
-import java.util.Arrays;
 import java.util.Scanner;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
 import java.util.TimerTask;
 import java.util.Timer;
@@ -23,6 +16,7 @@ public class Main {
 
     public static void main(String args[]) {
         ClientForm2 form = new ClientForm2();
+        form.setResizable(false);
         form.pack();
         form.setVisible(true);
     }

@@ -1,3 +1,5 @@
+package lab1;
+
 public class Author extends Human{
     @Override
     void action() {

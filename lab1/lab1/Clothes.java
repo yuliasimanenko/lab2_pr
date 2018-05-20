@@ -1,3 +1,5 @@
+package lab1;
+
 public class Clothes extends Fabric implements Look {
     @Override
     public void look() {

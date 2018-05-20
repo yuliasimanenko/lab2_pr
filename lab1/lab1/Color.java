@@ -1,3 +1,5 @@
+package lab1;
+
 import java.io.Serializable;
 
 public class Color implements Serializable {
@@ -27,6 +29,12 @@ public class Color implements Serializable {
         hash = hash*13+b;
         return hash;
     }
+
+    @Override
+    public String toString() {
+      return this.getR()+" "+this.getG()+" "+this.getB();
+    }
+
     @Override
     public boolean equals(Object obj){
         if (obj instanceof java.awt.Color) {

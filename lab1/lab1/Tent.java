@@ -1,3 +1,5 @@
+package lab1;
+
 public class Tent extends WoodenThings implements Open {
 
 	public @interface NewAnnotation{
@@ -11,7 +13,7 @@ public class Tent extends WoodenThings implements Open {
 
     }
 
-//реализация метода из интерфейса Open
+//реализация метода из интерфейса lab1.Open
 
     @Override
    @NewAnnotation (word = "это моя аннотация", TheNamberOfActions =3) public void open() {

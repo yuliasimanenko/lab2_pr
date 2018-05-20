@@ -1,3 +1,5 @@
+package lab1;
+
 public class Shpunt extends Human {
 
     Shpunt(){

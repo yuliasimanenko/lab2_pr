@@ -1,3 +1,5 @@
+package lab1;
+
 public class FinallyPhrase {
 	String s;
  void finallyPhrase () { 
