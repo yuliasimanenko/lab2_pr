@@ -2,9 +2,11 @@
 <form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="ServerForm">
   <grid id="27dc6" binding="panel1" default-binding="true" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="0">
     <constraints>
-      <xy x="20" y="20" width="793" height="448"/>
+      <xy x="20" y="20" width="794" height="428"/>
     </constraints>
     <properties>
+      <autoscrolls value="false"/>
+      <inheritsPopupMenu value="false"/>
       <preferredSize width="900" height="371"/>
     </properties>
     <border type="none"/>
@@ -95,6 +97,18 @@
           </component>
         </children>
       </scrollpane>
+      <grid id="fd93f" layout-manager="FlowLayout" hgap="40" vgap="50" flow-align="1">
+        <constraints/>
+        <properties/>
+        <border type="none"/>
+        <children/>
+      </grid>
+      <component id="ce988" class="javax.swing.JTextField" binding="textField1" default-binding="true">
+        <constraints/>
+        <properties>
+          <columns value="40"/>
+        </properties>
+      </component>
     </children>
   </grid>
 </form>

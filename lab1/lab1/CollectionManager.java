@@ -69,15 +69,28 @@ public class CollectionManager {
 //Stream API
             collection.forEach((key, value) -> {
                 if (value.compareTo(umbrella) > 0) {
-                    collection.replace(idInt,umbrella);
+                    deleteUmbrella(idInt,umbrella);
                 }
             });
-            this.saveToFile("collection");
 
         }
         catch (Exception e) {
             System.out.println("Ошибка - некорректная строка.");
         }
+
+    }
+    public Integer  getIdandUmbrella(String element) throws ParseException {
+        JSONParser parser = new JSONParser();
+        JSONObject ele = (JSONObject) parser.parse(element);
+        Umbrella umbrella = this.toUmbrella(ele);
+        return  umbrella.getId();
+
+    }
+    public Umbrella  getUmbrella(String element) throws ParseException {
+        JSONParser parser = new JSONParser();
+        JSONObject ele = (JSONObject) parser.parse(element);
+        Umbrella umbrella = this.toUmbrella(ele);
+        return  umbrella;
 
     }
     public void consolOut (){
@@ -155,14 +168,21 @@ public class CollectionManager {
             });
 
             if (isMin[0]){
-                collection.put(idInt, umbrella);
-                this.saveToFile("collection.txt");
+                addUmbrella(idInt,umbrella);
             }
         }
         catch (Exception e) {
             System.out.println("Ошибка - некорректная строка.");
         }
 
+    }
+    public void deleteUmbrella(Integer idInt,Umbrella umbrella){
+        collection.replace(idInt,umbrella);
+        this.saveToFile("collection.txt");
+    }
+    public void addUmbrella(Integer idInt,Umbrella umbrella){
+        collection.put(idInt, umbrella);
+        this.saveToFile("collection.txt");
     }
 
     /**

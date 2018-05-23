@@ -1,8 +1,11 @@
+
 import lab1.CollectionManager;
+
 
 import javax.swing.*;
 import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
+import javax.swing.text.html.parser.Parser;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.util.Scanner;
@@ -106,7 +109,7 @@ public class Main {
             @Override
             public void menuSelected(MenuEvent e) {
                 manager.saveToFile("collection.txt");
-                System.out.println("save");
+                //System.out.println("save");
             }
 
             @Override
@@ -124,9 +127,49 @@ public class Main {
         menuBar.add(menu1);
 
         menu2 = new JMenu("Add");
+        menu2.addMenuListener(new MenuListener() {
+            @Override
+            public void menuSelected(MenuEvent e) {
+                try {
+                    form.addUmbrellasFromField(manager);
+                    System.out.println("add");
+                } catch (Exception e1) {
+                    e1.getMessage();
+                }
+            }
 
+            @Override
+            public void menuDeselected(MenuEvent e) {
+
+            }
+
+            @Override
+            public void menuCanceled(MenuEvent e) {
+
+            }
+        });
         menuBar.add(menu2);
         menu3 = new JMenu("Delete");
+        menu3.addMenuListener(new MenuListener() {
+            @Override
+            public void menuSelected(MenuEvent e) {
+
+                try {
+                    form.deleteUmbrellas(manager);
+                } catch (Exception e1) {
+                }
+            }
+
+            @Override
+            public void menuDeselected(MenuEvent e) {
+
+            }
+
+            @Override
+            public void menuCanceled(MenuEvent e) {
+
+            }
+        });
         menuBar.add(menu3);
 
 
