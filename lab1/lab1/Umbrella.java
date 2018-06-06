@@ -7,20 +7,22 @@ import java.util.GregorianCalendar;
 public class Umbrella extends WoodenThings implements Open, Comparable<Umbrella>, Serializable {
     private static final long serialVersionUID = 1;
 
-    private int id;
+    @ORMField(fieldName = "color")
     private Color color;
-    private String materialName;
+    @ORMField(fieldName = "manufacturer")
     private String manufacturer;
     private GregorianCalendar gr;
 
-    public int getId() {
-        return id;
+    public int getYear() {
+        return this.getGr().get(Calendar.YEAR);
     }
+
+    public void setYear(int value) {
+        gr.set(Calendar.YEAR, value);
+    }
+
     public GregorianCalendar getGr(){
         return gr;
-    }
-    public String getMaterialName() {
-        return materialName;
     }
     public String getManufacturer(){
         return manufacturer;
@@ -29,11 +31,9 @@ public class Umbrella extends WoodenThings implements Open, Comparable<Umbrella>
         return this.color;
     }
 
-    public Umbrella(int id, Color color, String materialName, String manufacturer,GregorianCalendar gr){
+    public Umbrella(Color color, String manufacturer,GregorianCalendar gr){
         super("Зонтик");
-        this.id = id;
         this.color = color;
-        this.materialName = materialName;
         this.manufacturer = manufacturer;
         this.gr= gr;
     }
@@ -54,10 +54,9 @@ public class Umbrella extends WoodenThings implements Open, Comparable<Umbrella>
     @Override
     public int hashCode() {
         int hash = 11;
-        hash = hash * 13 + id;
+        hash = hash * 13 + this.getYear();
         hash = hash * 13 + color.hashCode();
         hash = hash * 13 + manufacturer.hashCode();
-        hash = hash * 13 + materialName.hashCode();
         return hash;
     }
 
@@ -66,20 +65,21 @@ public class Umbrella extends WoodenThings implements Open, Comparable<Umbrella>
         if (!(obj instanceof Umbrella))
             return false;
         Umbrella other = (Umbrella) obj;
-        return (other.id == id &&
+        return (other.getYear() == this.getYear() &&
                 color.equals(other.color) &&
-                manufacturer.equals(other.manufacturer) &&
-                materialName.equals(other.materialName));
+                manufacturer.equals(other.manufacturer));
     }
 
     @Override
     public String toString(){
-        return "ID: "+id +" Material: "+ materialName + "The country "+manufacturer+" date: "+gr.get(Calendar.YEAR) ;
+        return  "The country "+manufacturer+" date: "+gr.get(Calendar.YEAR) ;
     }
 
     @Override
     public int compareTo(Umbrella o) {
-        return o.getManufacturer().compareTo(this.getManufacturer());
+        Integer year = o.getGr().get(Calendar.YEAR);
+        Integer thisyear = this.getGr().get(Calendar.YEAR);
+        return thisyear.compareTo(year);
         //return ((Integer)id).compareTo(o.id);
     }
 }

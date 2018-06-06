@@ -5,7 +5,7 @@ import java.io.Serializable;
 public class Color implements Serializable {
     private static final long serialVersionUID = 1;
 
-    private int r, g, b;
+    private Integer r, g, b;
     public Color (int red,int green,int blue){
         r = red;
         g = green;

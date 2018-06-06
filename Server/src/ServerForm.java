@@ -13,6 +13,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.lang.reflect.Array;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -46,6 +47,7 @@ public class ServerForm extends JFrame {
 
         infoButton.addActionListener((e) -> {
             showCollectoinOnTable(manager);
+            textField1.setText("");
             //for (int i = 0; i < 100; i++)
             //  dtm.addRow(new Object[]{"a", "b", "c", "d", "e", "f"});
             //table1.addColumn(new TableColumn());
@@ -54,6 +56,7 @@ public class ServerForm extends JFrame {
             String jSonObj = textField1.getText();
             manager.add_if_min(jSonObj);
             showCollectoinOnTable(manager);
+            textField1.setText("");
         });
 
         importcommandButton.addActionListener(e -> {
@@ -66,6 +69,7 @@ public class ServerForm extends JFrame {
     }
 
     public void buttonWork(boolean b) {
+        b = true;
         add_if_minButton.setEnabled(b);
         infoButton.setEnabled(b);
         importcommandButton.setEnabled(b);
@@ -79,10 +83,15 @@ public class ServerForm extends JFrame {
         table1.setModel(dtm);
 
         Object[] tableObjects = manager.getSortedUmbrellas();
+
         for (int i = 0; i < tableObjects.length; i++) {
             Umbrella u = (Umbrella) tableObjects[i];
             dtm.addRow(new Object[]{u.getColor().toString(), u.getGr().get(Calendar.YEAR), u.getManufacturer()});
         }
+    }
+
+    public void deleteCollectiononOnTable(DefaultTableModel dtm) {
+        // table1.;
     }
 
     public void addNewUmbrellasToColl(CollectionManager manager) {
@@ -98,9 +107,49 @@ public class ServerForm extends JFrame {
 
     public void deleteUmbrellas(CollectionManager manager) throws Exception {
         String textFromField = textField1.getText();
-        manager.deleteUmbrella(manager.getIdandUmbrella(textFromField), manager.getUmbrella(textFromField));
+        Integer year = Integer.parseInt(textFromField);
+//        String[] isVal = textFromField.split(" ");
+//        String color = isVal[0];
+//        String[] rgb = color.split(";");
+//        int r = Integer.parseInt(rgb[0]);
+//        int g = Integer.parseInt(rgb[1]);
+//        int b = Integer.parseInt(rgb[2]);
+//        Integer year = Integer.valueOf(isVal[1]);
+//        String country = isVal[2];
+        manager.deleteUmbrella(year);
         showCollectoinOnTable(manager);
         textField1.setText("");
+    }
+
+    public void changeUmbrellas(CollectionManager manager) throws Exception {
+        String[] isVal = textField1.getText().split("new");
+        Integer old = Integer.parseInt(isVal[0]);
+        Integer newStr = Integer.parseInt(isVal[1]);
+//
+//        String[] oldComp = old.split(" ");
+//        String color1 = oldComp[0];
+//        String[] rgb1 = color1.split(";");
+//        int r1 = Integer.parseInt(rgb1[0]);
+//        int g1 = Integer.parseInt(rgb1[1]);
+//        int b1 = Integer.parseInt(rgb1[2]);
+//        Integer year1 = Integer.valueOf(oldComp[1]);
+//        String country1 = oldComp[2];
+//
+//        String[] newStrComp = newStr.split(" ");
+//
+//        String color2 = newStrComp[0];
+//        String[] rgb2 = color2.split(";");
+//        int r2 = Integer.parseInt(rgb2[0]);
+//        int g2 = Integer.parseInt(rgb2[1]);
+//        int b2 = Integer.parseInt(rgb2[2]);
+//        Integer year2 = Integer.valueOf(newStrComp[1]);
+//        String country2 = newStrComp[2];
+//        System.out.println("Ok split ");
+
+        manager.change(old, newStr);
+        showCollectoinOnTable(manager);
+        textField1.setText("");
+
     }
 
     public void addUmbrellasFromField(CollectionManager manager) throws Exception {

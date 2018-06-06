@@ -1,2 +1,3 @@
-[{"date":{"month":"6","year":"2017","day":"14"},"materialName":"bamboo","color":{"r":"200","b":"10","g":"50"},"id":"7","manufacturer":"China"}]
+[{"date":{"month":"6","year":"2017","day":"14"},"materialName":"bamboo","color":{"r":"200","b":"10","g":"50"},"id":"7","manufacturer":"China"},
+{"date":{"month":"6","year":"2017","day":"14"},"materialName":"bamboo","color":{"r":"200","b":"10","g":"50"},"id":"5","manufacturer":"Left"}]
 

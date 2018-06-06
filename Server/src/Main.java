@@ -96,7 +96,7 @@ public class Main {
         form.setResizable(false);
 
         JMenuBar menuBar;
-        JMenu menu1, menu2, menu3;
+        JMenu menu1, menu2, menu3,menu4;
         JMenuItem menuItem;
 
 
@@ -133,6 +133,7 @@ public class Main {
                 try {
                     form.addUmbrellasFromField(manager);
                     System.out.println("add");
+
                 } catch (Exception e1) {
                     e1.getMessage();
                 }
@@ -171,6 +172,29 @@ public class Main {
             }
         });
         menuBar.add(menu3);
+        menu4 = new JMenu("Change");
+        menu4.addMenuListener(new MenuListener() {
+            @Override
+            public void menuSelected(MenuEvent e) {
+                try {
+                    form.changeUmbrellas(manager);
+                } catch (Exception e1) {
+                    System.out.println("line isn't correct");
+                }
+            }
+
+            @Override
+            public void menuDeselected(MenuEvent e) {
+
+            }
+
+            @Override
+            public void menuCanceled(MenuEvent e) {
+
+            }
+        });
+        menuBar.add(menu4);
+
 
 
 

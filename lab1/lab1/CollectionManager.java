@@ -65,11 +65,12 @@ public class CollectionManager {
     public void remove_greater(String elementJson) {
         try {
             Umbrella umbrella = this.toUmbrella(elementJson);
-            Integer idInt = umbrella.getId();
+            Integer idInt = umbrella.getYear();
 //Stream API
             collection.forEach((key, value) -> {
                 if (value.compareTo(umbrella) > 0) {
-                    deleteUmbrella(idInt,umbrella);
+                    collection.replace(idInt,umbrella);
+                    this.saveToFile("collection.txt");
                 }
             });
 
@@ -83,7 +84,7 @@ public class CollectionManager {
         JSONParser parser = new JSONParser();
         JSONObject ele = (JSONObject) parser.parse(element);
         Umbrella umbrella = this.toUmbrella(ele);
-        return  umbrella.getId();
+        return  umbrella.getYear();
 
     }
     public Umbrella  getUmbrella(String element) throws ParseException {
@@ -93,27 +94,23 @@ public class CollectionManager {
         return  umbrella;
 
     }
-    public void consolOut (){
-        for (Umbrella umbrella : collection.values()) {
-            //делать что-то с umbrella
-            String material = umbrella.getMaterialName();
-            String manufac = umbrella.getManufacturer();
-            String id = Integer.toString(umbrella.getId());
-            Color color = umbrella.getColor();
-            String r = Integer.toString(color.getR());
-            String b = Integer.toString(color.getB());
-            String g = Integer.toString(color.getG());
-            System.out.println(id+ " Производства:"+manufac+"  Материал: "+ material+"  Расцветка: "+ "R-"+r+" B-"+b+" G-"+g);
-        }
-    }
+//    public void consolOut (){
+//        for (Umbrella umbrella : collection.values()) {
+//            //делать что-то с umbrella
+//            String manufac = umbrella.getManufacturer();
+//            String id = Integer.toString(umbrella.getId());
+//            Color color = umbrella.getColor();
+//            String r = Integer.toString(color.getR());
+//            String b = Integer.toString(color.getB());
+//            String g = Integer.toString(color.getG());
+//            System.out.println(id+ " Производства:"+manufac+"  Расцветка: "+ "R-"+r+" B-"+b+" G-"+g);
+//        }
+//    }
 
 
     public Umbrella toUmbrella(JSONObject element) {
-        String materialName = (String) element.get("materialName");
         String manufacturer = (String) element.get("manufacturer");
         JSONObject color = (JSONObject) element.get("color");
-        String idStr = (String) element.get("id");
-        int idInt = Integer.valueOf(idStr);
 
         JSONObject date = (JSONObject) element.get("date");
         String yearstring =(String) date.get("year");
@@ -131,7 +128,7 @@ public class CollectionManager {
         int bint = Integer.valueOf(bstring);
         Color colorObject = new Color(rint, gint, bint);
         GregorianCalendar dateObject = new GregorianCalendar(yearint,monthint,dayint);
-        Umbrella umbrella = new Umbrella(idInt, colorObject, materialName, manufacturer,dateObject);
+        Umbrella umbrella = new Umbrella( colorObject, manufacturer,dateObject);
         return umbrella;
     }
 
@@ -154,11 +151,8 @@ public class CollectionManager {
      *                    <li>"lab1.Color"(example "color":{"r":"255","b":"0","g":"0"})</li></ul>
      */
     public void add_if_min(String elementJson) {
-        // System.out.println(elementJson +"  ДОБАВЛЕН");
-
         try {
             Umbrella umbrella = this.toUmbrella(elementJson);
-            Integer idInt = umbrella.getId();
             boolean[] isMin = { true };
 
             collection.forEach((key, value) -> {
@@ -168,7 +162,7 @@ public class CollectionManager {
             });
 
             if (isMin[0]){
-                addUmbrella(idInt,umbrella);
+                addUmbrella(umbrella.getGr().get(Calendar.YEAR),umbrella);
             }
         }
         catch (Exception e) {
@@ -176,10 +170,40 @@ public class CollectionManager {
         }
 
     }
-    public void deleteUmbrella(Integer idInt,Umbrella umbrella){
-        collection.replace(idInt,umbrella);
+    public void deleteUmbrella(Integer year){ //delete but not show for the first time
+        collection.forEach((key, value) -> {
+            System.out.println("if");
+            if (value.getGr().get(Calendar.YEAR)==year) {
+                collection.remove(value.getYear());
+                System.out.println("delete");
+            }
+            System.out.println("exit from deleteUmbr");
+        });
         this.saveToFile("collection.txt");
     }
+    public void change(Integer r1, Integer r2){
+        collection.forEach((key, value) -> {
+//            if (value.getColor().getB()==b1&&value.getColor().getG()==g1&&value.getColor().getR()==r1&&
+//                    value.getManufacturer()==country1&&value.getGr().get(Calendar.YEAR)==year1) {
+//                System.out.println("line is correct");
+//                GregorianCalendar gregorianCalendar = new GregorianCalendar(year2,value.getGr().get(Calendar.MONTH),value.getGr().get(Calendar.DAY_OF_MONTH));
+//                Color color = new Color(r2,g2,b2);
+//                System.out.println("new Color");
+//                Umbrella umbrella = new Umbrella(value.getId(),color,value.getMaterialName(),country2,gregorianCalendar);
+//                System.out.println("new Umbrella");
+//                collection.replace(value.getId(),value,umbrella);
+//                System.out.println("replace");
+//            }
+            if(value.getGr().get(Calendar.YEAR)==r1){
+                GregorianCalendar dr = new GregorianCalendar(r2,value.getGr().get(Calendar.MONTH),value.getGr().get(Calendar.DAY_OF_MONTH));
+                value.setYear(r2);
+                //Umbrella umbrella = new Umbrella(value.getColor(),value.getManufacturer(),dr);
+                //collection.replace(value.getId(),value,umbrella);
+            }
+        });
+        this.saveToFile("collection.txt");
+    }
+
     public void addUmbrella(Integer idInt,Umbrella umbrella){
         collection.put(idInt, umbrella);
         this.saveToFile("collection.txt");
@@ -207,7 +231,7 @@ public class CollectionManager {
                 array.forEach((object) -> {
                     JSONObject jsonObj = (JSONObject) object;
                     Umbrella umbrella = toUmbrella(jsonObj);
-                    collection.put(umbrella.getId(), umbrella);
+                    collection.put(collection.size(), umbrella);
                 });
             } else {
                 System.out.println("Файла нет");
@@ -221,9 +245,8 @@ public class CollectionManager {
         collection.forEach((key, value)->{
             Umbrella umbrella = value;
             JSONObject obj = new JSONObject();
-            obj.put("materialName", umbrella.getMaterialName());
+
             obj.put("manufacturer",umbrella.getManufacturer());
-            obj.put("id", Integer.toString(umbrella.getId()));
 
             JSONObject dateObj = new JSONObject();
             dateObj.put("year", Integer.toString(umbrella.getGr().get(Calendar.YEAR)));
@@ -247,7 +270,8 @@ public class CollectionManager {
             FileOutputStream output = new FileOutputStream(fileForWrite);
             PrintStream writer = new PrintStream(output);
             writer.print(jsonStr);
-            writer.close();}catch(Exception e){
+            writer.close();}
+            catch(Exception e){
             System.out.println("Файл не найден");
         }
     }

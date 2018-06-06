@@ -1,4 +1,7 @@
+import lab1.Color;
+import lab1.ORMClass;
 import lab1.Story;
+import lab1.Umbrella;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -6,19 +9,48 @@ import java.io.ObjectInputStream;
 import java.net.*;
 import java.nio.ByteBuffer;
 import java.nio.channels.DatagramChannel;
-import java.util.Scanner;
+import java.util.*;
 import java.util.stream.Stream;
-import java.util.TimerTask;
-import java.util.Timer;
 
 public class Main {
     private static final int WAIT_TIME = 5000;
 
+     static ResourceBundle resourceBundle;
+     static ClientForm2 form = null;
+
     public static void main(String args[]) {
-        ClientForm2 form = new ClientForm2();
+        Locale curLocale = new Locale("ru", "RU");
+        formWithLocale(curLocale);
+        testORM();
+    }
+
+    public static void testORM() {
+        Umbrella u = new Umbrella(new Color(5, 5, 5), "Sudan", new GregorianCalendar(2014, 03, 03));
+        Umbrella u2 = new Umbrella(new Color(5, 5, 5), "Denmark", new GregorianCalendar(2013, 03, 03));
+
+        ORMClass<Umbrella> orm = new ORMClass<>(Umbrella.class);
+        orm.create();
+        orm.add(u);
+        orm.remove(u);
+        orm.replace(u, u2);
+        orm.get("manufacturer like \"China\"");
+        orm.printSQL();
+    }
+
+    public static void formWithLocale(Locale locale) {
+        if (form != null)
+            form.Close();
+
+        resourceBundle = ResourceBundle.getBundle("Resources", locale);
+
+        form = new ClientForm2();
         form.setResizable(false);
         form.pack();
         form.setVisible(true);
+    }
+
+    public static String getLocalString(String keyStr){
+        return resourceBundle.getString(keyStr);
     }
 
     public static void main_old (String args[]){

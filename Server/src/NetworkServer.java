@@ -77,8 +77,8 @@ public class NetworkServer {
     public static void ifFunction (byte b[],DatagramSocket socket,
                             DatagramPacket packet){
         try{if (b[0] == 1) {
-            ByteArrayOutputStream dataOutStream = null;
-            ObjectOutputStream oStream = null;
+            ByteArrayOutputStream dataOutStream;
+            ObjectOutputStream oStream;
             dataOutStream = new ByteArrayOutputStream();
             oStream = new ObjectOutputStream(dataOutStream);
             Object[] array = manager.getSortedUmbrellas();
