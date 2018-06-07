@@ -43,7 +43,7 @@
               <title-color color="-4493816"/>
             </border>
             <children>
-              <component id="9f6be" class="javax.swing.JLabel">
+              <component id="9f6be" class="javax.swing.JLabel" binding="color">
                 <constraints>
                   <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
@@ -53,7 +53,7 @@
                   <text value="Color"/>
                 </properties>
               </component>
-              <component id="77132" class="javax.swing.JLabel">
+              <component id="77132" class="javax.swing.JLabel" binding="filters">
                 <constraints>
                   <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
@@ -64,7 +64,7 @@
                   <text value="Filters"/>
                 </properties>
               </component>
-              <component id="76cf5" class="javax.swing.JLabel">
+              <component id="76cf5" class="javax.swing.JLabel" binding="country">
                 <constraints>
                   <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
@@ -74,7 +74,7 @@
                   <text value="Country"/>
                 </properties>
               </component>
-              <component id="efbf6" class="javax.swing.JLabel">
+              <component id="efbf6" class="javax.swing.JLabel" binding="yearf">
                 <constraints>
                   <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>

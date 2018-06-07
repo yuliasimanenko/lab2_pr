@@ -9,6 +9,7 @@ import java.io.ObjectInputStream;
 import java.net.*;
 import java.nio.ByteBuffer;
 import java.nio.channels.DatagramChannel;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Stream;
 
@@ -25,8 +26,9 @@ public class Main {
     }
 
     public static void testORM() {
-        Umbrella u = new Umbrella(new Color(5, 5, 5), "Sudan", new GregorianCalendar(2014, 03, 03));
-        Umbrella u2 = new Umbrella(new Color(5, 5, 5), "Denmark", new GregorianCalendar(2013, 03, 03));
+
+        Umbrella u = new Umbrella(new Color(5, 5, 5), "Sudan", LocalDateTime.now());
+        Umbrella u2 = new Umbrella(new Color(5, 5, 5), "Denmark", LocalDateTime.now().minusYears(2).minusMonths(3));
 
         ORMClass<Umbrella> orm = new ORMClass<>(Umbrella.class);
         orm.create();

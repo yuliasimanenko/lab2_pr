@@ -4,8 +4,15 @@ public class Resources_be_BY extends ListResourceBundle{
     public Object[][] getContents(){
         return new Object[][]{
                 { "langIndex", 1 },
-                {"Client", "Клиент by"},
-                {"Start","Старт"}
+                {"Client", "Кліент"},
+                {"Start","Старт"},
+                {"Stop","Стоп"},
+                {"Use Filters","Выкарыстоўваць Фільтры"},
+                {"Update","Загрузіць калекцыю"},
+                {"Color","Колер"},
+                {"Filters","Фільтры"},
+                {"Country","Краіна"},
+                {"Year","Год"}
         };
     }
 }

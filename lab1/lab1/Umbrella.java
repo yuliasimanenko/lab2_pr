@@ -1,8 +1,10 @@
 package lab1;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+
 
 public class Umbrella extends WoodenThings implements Open, Comparable<Umbrella>, Serializable {
     private static final long serialVersionUID = 1;
@@ -11,19 +13,17 @@ public class Umbrella extends WoodenThings implements Open, Comparable<Umbrella>
     private Color color;
     @ORMField(fieldName = "manufacturer")
     private String manufacturer;
-    private GregorianCalendar gr;
+    private LocalDateTime dateTime;
 
-    public int getYear() {
-        return this.getGr().get(Calendar.YEAR);
+    public LocalDateTime getDateTime() {
+        return dateTime;
+    }
+    public static void setYear(Integer i,Umbrella u){
+        LocalDateTime time=u.getDateTime();
+        time.withDayOfYear(i);
+
     }
 
-    public void setYear(int value) {
-        gr.set(Calendar.YEAR, value);
-    }
-
-    public GregorianCalendar getGr(){
-        return gr;
-    }
     public String getManufacturer(){
         return manufacturer;
     }
@@ -31,11 +31,11 @@ public class Umbrella extends WoodenThings implements Open, Comparable<Umbrella>
         return this.color;
     }
 
-    public Umbrella(Color color, String manufacturer,GregorianCalendar gr){
+    public Umbrella(Color color, String manufacturer,LocalDateTime dateTime){
         super("Зонтик");
         this.color = color;
         this.manufacturer = manufacturer;
-        this.gr= gr;
+        this.dateTime = dateTime;
     }
 
 //переопределенеи интерфейса lab1.Open
@@ -54,7 +54,7 @@ public class Umbrella extends WoodenThings implements Open, Comparable<Umbrella>
     @Override
     public int hashCode() {
         int hash = 11;
-        hash = hash * 13 + this.getYear();
+        hash = hash * 13 + this.getDateTime().getYear();
         hash = hash * 13 + color.hashCode();
         hash = hash * 13 + manufacturer.hashCode();
         return hash;
@@ -65,20 +65,20 @@ public class Umbrella extends WoodenThings implements Open, Comparable<Umbrella>
         if (!(obj instanceof Umbrella))
             return false;
         Umbrella other = (Umbrella) obj;
-        return (other.getYear() == this.getYear() &&
+        return (other.getDateTime().getYear() == this.getDateTime().getYear() &&
                 color.equals(other.color) &&
                 manufacturer.equals(other.manufacturer));
     }
 
     @Override
     public String toString(){
-        return  "The country "+manufacturer+" date: "+gr.get(Calendar.YEAR) ;
+        return  "The country "+manufacturer+" date: "+dateTime.toString() ;
     }
 
     @Override
     public int compareTo(Umbrella o) {
-        Integer year = o.getGr().get(Calendar.YEAR);
-        Integer thisyear = this.getGr().get(Calendar.YEAR);
+        Integer year = o.getDateTime().getYear();
+        Integer thisyear = this.getDateTime().getYear();
         return thisyear.compareTo(year);
         //return ((Integer)id).compareTo(o.id);
     }

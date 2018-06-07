@@ -7,7 +7,9 @@ import org.json.simple.parser.ParseException;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.PrintStream;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -65,7 +67,7 @@ public class CollectionManager {
     public void remove_greater(String elementJson) {
         try {
             Umbrella umbrella = this.toUmbrella(elementJson);
-            Integer idInt = umbrella.getYear();
+            Integer idInt = umbrella.getDateTime().getYear();
 //Stream API
             collection.forEach((key, value) -> {
                 if (value.compareTo(umbrella) > 0) {
@@ -84,7 +86,7 @@ public class CollectionManager {
         JSONParser parser = new JSONParser();
         JSONObject ele = (JSONObject) parser.parse(element);
         Umbrella umbrella = this.toUmbrella(ele);
-        return  umbrella.getYear();
+        return  umbrella.getDateTime().getYear();
 
     }
     public Umbrella  getUmbrella(String element) throws ParseException {
@@ -109,16 +111,16 @@ public class CollectionManager {
 
 
     public Umbrella toUmbrella(JSONObject element) {
+
         String manufacturer = (String) element.get("manufacturer");
+
         JSONObject color = (JSONObject) element.get("color");
 
-        JSONObject date = (JSONObject) element.get("date");
-        String yearstring =(String) date.get("year");
-        String monthstring =(String) date.get("month");
-        String daystring = (String)date.get("day");
-        int yearint = Integer.valueOf(yearstring);
-        int monthint = Integer.valueOf(monthstring);
-        int dayint = Integer.valueOf(daystring);
+
+        String dateStr = (String)element.get("date");
+        LocalDateTime time = LocalDateTime.parse(dateStr);
+
+
 
         String rstring = (String) color.get("r");
         String gstring = (String) color.get("g");
@@ -127,8 +129,9 @@ public class CollectionManager {
         int gint = Integer.valueOf(gstring);
         int bint = Integer.valueOf(bstring);
         Color colorObject = new Color(rint, gint, bint);
-        GregorianCalendar dateObject = new GregorianCalendar(yearint,monthint,dayint);
-        Umbrella umbrella = new Umbrella( colorObject, manufacturer,dateObject);
+
+        Umbrella umbrella = new Umbrella( colorObject, manufacturer,time);
+
         return umbrella;
     }
 
@@ -162,7 +165,7 @@ public class CollectionManager {
             });
 
             if (isMin[0]){
-                addUmbrella(umbrella.getGr().get(Calendar.YEAR),umbrella);
+                addUmbrella(umbrella.getDateTime().getYear(),umbrella);
             }
         }
         catch (Exception e) {
@@ -173,8 +176,8 @@ public class CollectionManager {
     public void deleteUmbrella(Integer year){ //delete but not show for the first time
         collection.forEach((key, value) -> {
             System.out.println("if");
-            if (value.getGr().get(Calendar.YEAR)==year) {
-                collection.remove(value.getYear());
+            if (value.getDateTime().getYear()==year) {
+                collection.remove(value.getDateTime().getYear());
                 System.out.println("delete");
             }
             System.out.println("exit from deleteUmbr");
@@ -194,9 +197,8 @@ public class CollectionManager {
 //                collection.replace(value.getId(),value,umbrella);
 //                System.out.println("replace");
 //            }
-            if(value.getGr().get(Calendar.YEAR)==r1){
-                GregorianCalendar dr = new GregorianCalendar(r2,value.getGr().get(Calendar.MONTH),value.getGr().get(Calendar.DAY_OF_MONTH));
-                value.setYear(r2);
+            if(value.getDateTime().getYear()==r1){
+                Umbrella.setYear(r1,value);
                 //Umbrella umbrella = new Umbrella(value.getColor(),value.getManufacturer(),dr);
                 //collection.replace(value.getId(),value,umbrella);
             }
@@ -224,10 +226,10 @@ public class CollectionManager {
                 while (scanner.hasNextLine())
                     json += scanner.nextLine();
                 scanner.close();
-
                 JSONParser parser = new JSONParser();
 
                 JSONArray array = (JSONArray) parser.parse(json);
+
                 array.forEach((object) -> {
                     JSONObject jsonObj = (JSONObject) object;
                     Umbrella umbrella = toUmbrella(jsonObj);
@@ -236,8 +238,9 @@ public class CollectionManager {
             } else {
                 System.out.println("Файла нет");
             }
-            this.saveToFile("collection");
-        }catch (Exception e){System.out.println("Неправильный формат файла");}
+            //this.saveToFile("collection");
+        }catch (IOException e){System.out.println("Неправильный формат файла");
+        e.printStackTrace();}
     }
 
     public void saveToFile(String path) {
@@ -247,12 +250,7 @@ public class CollectionManager {
             JSONObject obj = new JSONObject();
 
             obj.put("manufacturer",umbrella.getManufacturer());
-
-            JSONObject dateObj = new JSONObject();
-            dateObj.put("year", Integer.toString(umbrella.getGr().get(Calendar.YEAR)));
-            dateObj.put("month",Integer.toString(umbrella.getGr().get(Calendar.MONTH)));
-            dateObj.put("day",Integer.toString(umbrella.getGr().get(Calendar.DAY_OF_MONTH)));
-            obj.put("date",dateObj);
+            obj.put("date",umbrella.getDateTime().toString());
             JSONObject colorObj = new JSONObject();
             colorObj.put("r", Integer.toString(umbrella.getColor().getR()));
             colorObj.put("g", Integer.toString(umbrella.getColor().getG()));

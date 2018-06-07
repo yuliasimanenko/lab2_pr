@@ -5,7 +5,14 @@ public class Resources_ru_RU  extends ListResourceBundle{
         return new Object[][]{
                 { "langIndex", 0 },
                 {"Client", "Клиент"},
-                {"Start","Старт"}
+                {"Start","Старт"},
+                {"Stop","Стоп"},
+                {"Use Filters","Использовать фильтры"},
+                {"Update","Загрузить Коллекцию"},
+                {"Color","Цвет"},
+                {"Filters","Фильтры"},
+                {"Country","Страна"},
+                {"Year","Год"}
         };
     }
 }

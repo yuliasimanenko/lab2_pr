@@ -86,7 +86,7 @@ public class ServerForm extends JFrame {
 
         for (int i = 0; i < tableObjects.length; i++) {
             Umbrella u = (Umbrella) tableObjects[i];
-            dtm.addRow(new Object[]{u.getColor().toString(), u.getGr().get(Calendar.YEAR), u.getManufacturer()});
+            dtm.addRow(new Object[]{u.getColor().toString(), u.getDateTime().getYear(), u.getManufacturer()});
         }
     }
 

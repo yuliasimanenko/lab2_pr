@@ -30,6 +30,10 @@ public class ClientForm2 extends JFrame {
     private JButton startButton;
     private JButton stopButton;
     private JComboBox comboBox1;
+    private JLabel color;
+    private JLabel filters;
+    private JLabel country;
+    private JLabel yearf;
     private JPanel Client;
 
     Object[] umbrellasArray = new Object[0];
@@ -50,6 +54,14 @@ public class ClientForm2 extends JFrame {
         //MyListRenderer.toChangeAlpha.add(0);
 
         startButton.setText(Main.getLocalString("Start"));
+        stopButton.setText(Main.getLocalString("Stop"));
+        useFiltersCheckBox.setText(Main.getLocalString("Use Filters"));
+        updateCollectionButton.setText(Main.getLocalString("Update"));
+        color.setText(Main.getLocalString("Color"));
+        filters.setText(Main.getLocalString("Filters"));
+        yearf.setText(Main.getLocalString("Year"));
+        country.setText(Main.getLocalString("Country"));
+
 
         list1.setCellRenderer(new MyListRenderer());
 
@@ -220,7 +232,7 @@ public class ClientForm2 extends JFrame {
 //        if (u.getGr().get(Calendar.YEAR) != (slider1.getValue()))
 //            return false;
 
-        return (u.getColor().equals(c)) | (u.getManufacturer().equals(inputCountry.getText())) | (u.getGr().get(Calendar.YEAR) == (slider1.getValue()));
+        return (u.getColor().equals(c)) | (u.getManufacturer().equals(inputCountry.getText())) | (u.getDateTime().getYear() == (slider1.getValue()));
     }
 
     public void resAnswer(DatagramChannel datagramChannel) {
@@ -324,31 +336,31 @@ public class ClientForm2 extends JFrame {
         if (panel4Font != null) panel4.setFont(panel4Font);
         panel4.setForeground(new Color(-4490990));
         panel1.add(panel4, new com.intellij.uiDesigner.core.GridConstraints(2, 1, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
-        final JLabel label1 = new JLabel();
-        Font label1Font = this.$$$getFont$$$("Consolas", Font.BOLD | Font.ITALIC, -1, label1.getFont());
-        if (label1Font != null) label1.setFont(label1Font);
-        label1.setForeground(new Color(-4474699));
-        label1.setText("Color");
-        panel4.add(label1, new com.intellij.uiDesigner.core.GridConstraints(1, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        final JLabel label2 = new JLabel();
-        label2.setBackground(new Color(-4493816));
-        Font label2Font = this.$$$getFont$$$("Caladea", Font.BOLD | Font.ITALIC, 18, label2.getFont());
-        if (label2Font != null) label2.setFont(label2Font);
-        label2.setForeground(new Color(-4474699));
-        label2.setText("Filters");
-        panel4.add(label2, new com.intellij.uiDesigner.core.GridConstraints(0, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        final JLabel label3 = new JLabel();
-        Font label3Font = this.$$$getFont$$$("Consolas", Font.BOLD | Font.ITALIC, -1, label3.getFont());
-        if (label3Font != null) label3.setFont(label3Font);
-        label3.setForeground(new Color(-4474699));
-        label3.setText("Country");
-        panel4.add(label3, new com.intellij.uiDesigner.core.GridConstraints(2, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        final JLabel label4 = new JLabel();
-        Font label4Font = this.$$$getFont$$$("Consolas", Font.BOLD | Font.ITALIC, -1, label4.getFont());
-        if (label4Font != null) label4.setFont(label4Font);
-        label4.setForeground(new Color(-4474699));
-        label4.setText("Year");
-        panel4.add(label4, new com.intellij.uiDesigner.core.GridConstraints(3, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        color = new JLabel();
+        Font colorFont = this.$$$getFont$$$("Consolas", Font.BOLD | Font.ITALIC, -1, color.getFont());
+        if (colorFont != null) color.setFont(colorFont);
+        color.setForeground(new Color(-4474699));
+        color.setText("Color");
+        panel4.add(color, new com.intellij.uiDesigner.core.GridConstraints(1, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        filters = new JLabel();
+        filters.setBackground(new Color(-4493816));
+        Font filtersFont = this.$$$getFont$$$("Caladea", Font.BOLD | Font.ITALIC, 18, filters.getFont());
+        if (filtersFont != null) filters.setFont(filtersFont);
+        filters.setForeground(new Color(-4474699));
+        filters.setText("Filters");
+        panel4.add(filters, new com.intellij.uiDesigner.core.GridConstraints(0, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        country = new JLabel();
+        Font countryFont = this.$$$getFont$$$("Consolas", Font.BOLD | Font.ITALIC, -1, country.getFont());
+        if (countryFont != null) country.setFont(countryFont);
+        country.setForeground(new Color(-4474699));
+        country.setText("Country");
+        panel4.add(country, new com.intellij.uiDesigner.core.GridConstraints(2, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        yearf = new JLabel();
+        Font yearfFont = this.$$$getFont$$$("Consolas", Font.BOLD | Font.ITALIC, -1, yearf.getFont());
+        if (yearfFont != null) yearf.setFont(yearfFont);
+        yearf.setForeground(new Color(-4474699));
+        yearf.setText("Year");
+        panel4.add(yearf, new com.intellij.uiDesigner.core.GridConstraints(3, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         inputCountry = new JTextField();
         inputCountry.setBackground(new Color(-4474699));
         inputCountry.setForeground(new Color(-16514304));
