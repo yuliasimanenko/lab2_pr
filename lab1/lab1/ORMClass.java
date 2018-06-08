@@ -5,6 +5,7 @@ import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Queue;
+import java.sql.*;
 
 public class ORMClass<T> {
 
@@ -15,7 +16,7 @@ public class ORMClass<T> {
         this.objClass = classObj;
     }
 
-    public void create() {
+    public String create() {
         String tableName = objClass.getSimpleName();
         List<Field> annotatedFields = new ArrayList<>();
 
@@ -60,8 +61,10 @@ public class ORMClass<T> {
 
         String sql = sb.toString();
         statements.add(sql);
+        return sql;
+
     }
-    public void add(Umbrella u){
+    public String add(Umbrella u){
         StringBuilder strORM = new StringBuilder();
         strORM.append("INSERT INTO ").append(objClass.getSimpleName());
         strORM.append(" ").append("VALUES").append(" ( ");
@@ -70,10 +73,11 @@ public class ORMClass<T> {
         strORM.append("\""+u.getManufacturer()+"\"");
 
         strORM.append(" );");
-        statements.add(strORM.toString());
+        return strORM.toString();
+        //statements.add(strORM.toString());
 
     }
-    public void remove(Umbrella u){
+    public String remove(Umbrella u){
         StringBuilder strORM = new StringBuilder();
         strORM.append("DELETE FROM ").append(objClass.getSimpleName());
         strORM.append(" ").append("WHERE").append(" ");
@@ -84,7 +88,8 @@ public class ORMClass<T> {
         strORM.append("\""+u.getManufacturer()+"\"");
 
         strORM.append(" ;");
-        statements.add(strORM.toString());
+        return strORM.toString();
+        //statements.add(strORM.toString());
 
     }
     public void replace(Umbrella u0,Umbrella u1){
@@ -93,7 +98,7 @@ public class ORMClass<T> {
         add(u1);
 
     }
-    public void get(String s){
+    public String get(String s){
         StringBuilder strORM = new StringBuilder();
         strORM.append("SELECT * FROM ").append(objClass.getSimpleName());
         strORM.append(" WHERE ");
@@ -101,7 +106,8 @@ public class ORMClass<T> {
 
 
         strORM.append(" ;");
-        statements.add(strORM.toString());
+        //statements.add(strORM.toString());
+        return strORM.toString();
     }
 
     public void printSQL() {

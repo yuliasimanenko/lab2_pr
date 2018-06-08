@@ -1,15 +1,10 @@
-import lab1.Color;
-import lab1.ORMClass;
 import lab1.Story;
-import lab1.Umbrella;
-
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.*;
 import java.nio.ByteBuffer;
 import java.nio.channels.DatagramChannel;
-import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Stream;
 
@@ -22,22 +17,22 @@ public class Main {
     public static void main(String args[]) {
         Locale curLocale = new Locale("ru", "RU");
         formWithLocale(curLocale);
-        testORM();
+        //testORM();
     }
 
-    public static void testORM() {
-
-        Umbrella u = new Umbrella(new Color(5, 5, 5), "Sudan", LocalDateTime.now());
-        Umbrella u2 = new Umbrella(new Color(5, 5, 5), "Denmark", LocalDateTime.now().minusYears(2).minusMonths(3));
-
-        ORMClass<Umbrella> orm = new ORMClass<>(Umbrella.class);
-        orm.create();
-        orm.add(u);
-        orm.remove(u);
-        orm.replace(u, u2);
-        orm.get("manufacturer like \"China\"");
-        orm.printSQL();
-    }
+//    public static void testORM() {
+//
+//        Umbrella u = new Umbrella(new Color(5, 5, 5), "Sudan", LocalDateTime.now());
+//        Umbrella u2 = new Umbrella(new Color(5, 5, 5), "Denmark", LocalDateTime.now().minusYears(2).minusMonths(3));
+//
+//        ORMClass<Umbrella> orm = new ORMClass<>(Umbrella.class);
+//        orm.create();
+//        orm.add(u);
+//        orm.remove(u);
+//        orm.replace(u, u2);
+//        orm.get("manufacturer like \"China\"");
+//        orm.printSQL();
+//    }
 
     public static void formWithLocale(Locale locale) {
         if (form != null)
@@ -64,8 +59,7 @@ public class Main {
                 String input = scanner.nextLine();
 
                 String[] words = input.split(" ");
-                //if (words.length>1)
-
+                
                 switch (words[0]) {
                     case "info":
                        final   boolean[] interrupted = {false};

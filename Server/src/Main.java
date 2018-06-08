@@ -1,13 +1,11 @@
 
-import lab1.CollectionManager;
+import lab1.*;
 
 
 import javax.swing.*;
 import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
-import javax.swing.text.html.parser.Parser;
-import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
+import java.time.LocalDateTime;
 import java.util.Scanner;
 
 public class Main {
@@ -32,6 +30,11 @@ public class Main {
             }
         }));
 
+
+
+
+
+        DataBaseManager.testORM();
 
 //обслуживание запросов пользователя
         NetworkServer server = new NetworkServer(commands);
@@ -90,6 +93,8 @@ public class Main {
 //        }
 
     }
+
+
 
     private static void showForm(CollectionManager manager) {
         form = new ServerForm(manager);
